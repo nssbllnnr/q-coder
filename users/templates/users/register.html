@@ -1,0 +1,33 @@
+{% extends "users/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">  
+  <div class="col-sm"></div>
+  <div class="col-sm">
+      <form class="border border-light p-5" method="POST" action="\">
+      {% csrf_token %}
+      <p class="h4 mb-4 text-center">Sign up</p>
+      <!-- {{form|crispy}} -->
+        {% for field in form %}
+        <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+            {% endfor %}
+        </p>
+        {% endfor %}
+      <button class="btn btn-info my-4 btn-block" type="submit">Sign up</button>
+      <div class="text-center">
+          <hr>
+          <p>By clicking
+              <em>Sign up</em> you agree to our
+              <a href="" target="_blank">terms of service</a> and
+              <a href="" target="_blank">terms of service</a>.
+          </p>
+      </div>
+      </form>
+  </div>
+  <div class="col-sm"></div>
+</div>
+{% endblock content %}

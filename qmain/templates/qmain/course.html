@@ -1,0 +1,107 @@
+{% extends "qmain/base.html" %}
+{% block content %}
+<div class="container-fluid mt-5">
+<div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="POST">
+      {% csrf_token %}
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Create New Task</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <i class="fas fa-user prefix grey-text"></i>
+          <!-- <input type="text" id="orangeForm-name" class="form-control validate" name="title"> -->
+          {{form.title}}
+          <label data-error="wrong" data-success="right" for="orangeForm-name">Title</label>
+        </div>
+        <div class="md-form mb-4 pink-textarea active-pink-textarea">
+          <i class="fas fa-angle-double-right prefix grey-text"></i>
+          <!-- <textarea id="form21" class="md-textarea form-control" rows="3" name="description"></textarea> -->
+          {{form.description}}
+          <label for="form21">Task Description</label>
+        </div>
+        <br>
+        <div class="md-form mb-5">
+          <i class="fas fa-user prefix grey-text"></i>
+          <!-- <input type="date" name="date" id="orangeForm-name" class="form-control validate"> -->
+          {{form.deadline}}
+          <label data-error="wrong" data-success="right" for="orangeForm-date">Select Date</label>
+        </div>
+        <!-- <div class="md-form mb-5">
+          <i class="fas fa-user prefix grey-text"></i>
+          <input type="time" name="time" id="orangeForm-name" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="orangeForm-time">Select Time</label>
+        </div> -->
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+      <button type="submit" class="btn btn-rounded text-white purple lighten-2">Create</button>
+    </div>
+    </form>
+    </div>
+  </div>
+</div>
+</div>      
+
+
+
+<!--Modal: Login / Register Form-->
+<div class="container-fluid mt-5">
+  <div class="row wow fadeIn">
+    <div class="col-md-12 mb-6">
+    <!--Grid column-->
+      <div class="wrapper-editor">
+        <div class="d-flex justify-content-center buttons-wrapper my-3">
+          <button class="btn btn-rounded text-white blue darken-3 btn-sm add-content-edit" type="button"><i class="fas fa-toggle-off"></i></button>
+          <button class=" btn btn-rounded text-white purple lighten-2 btn-sm add-new-row" type="button"  data-toggle="modal" data-target="#modalRegisterForm"><i class="fas fa-plus"></i></button>
+          <button class="btn btn-rounded text-white red btn-sm remove-first-tr" type="button"> <i class="fas fa-eraser"></i></button>
+        </div>
+      
+        <table id="contentEx" class="table table-striped display" cellspacing=" 0" width="100%">
+          <thead>
+            <tr>
+              <th scope="th-sm">Id</th>
+              <th scope="th-sm">Title</th>
+              <th scope="th-sm">Description</th>
+              <th scope="th-sm">Deadline</th>
+              <th scope="th-sm">Type</th>
+              <th scope="th-sm">See</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in tasks %}
+            <tr>
+              <th scope="row">{{ task.id }}</th>
+              <td>{{ task.title }}</td>
+              <td>{{ task.description }}</td>
+              <td>{{ task.deadline }}</td>
+              <td>{{ task.task_type.type_name}}</td>
+              <td>
+                <a href="{% url 'exams' course_id task.id %}"><i class="fas fa-external-link-square-alt cyan-text"></i>
+                </a>
+              </td>
+            </tr>  
+          {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="th-sm">Id</th>
+              <th scope="th-sm">Title</th>
+              <th scope="th-sm">Description</th>
+              <th scope="th-sm">Deadline</th>
+              <th scope="th-sm">Type</th>
+              <th scope="th-sm">See</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

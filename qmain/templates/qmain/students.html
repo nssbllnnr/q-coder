@@ -1,0 +1,38 @@
+{% extends "qmain/base.html" %}
+{% block content %}
+<div class="container-fluid mt-5">
+  <div class="row wow fadeIn">
+    <!--Grid column-->
+    <div class="col-md-12 mb-6">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Student Id</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Faculty</th>
+            <th scope="col">Major</th>
+            <th scope="col">Graduation year</th>
+            <th scope="col">Enrollment year</th>
+          </tr>
+        </thead>
+        <tbody>    
+        {% for student in students %}
+          <tr>
+            <th scope="row">{{ student.student_id }}</th>
+            <td>{{ student.user.first_name }}</td>
+            <td>{{ student.user.last_name }}</td>
+            <td>{{ student.user.email }}</td>
+            <td>{{ student.faculty }}</td>
+            <td>{{ student.major }}</td>
+            <td>{{ student.graduation_year }}</td>
+            <td>{{ student.enrollment_year }}</td>
+          </tr>  
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>      
+{% endblock content %}
