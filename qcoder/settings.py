@@ -25,7 +25,7 @@ SECRET_KEY = 'ag*53um(fg3is3#scdmxs5f(=o($9egj5cy&ex6!7px9t95z!o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['qcoder.herokuapp.com']
 
 
 # Application definition
