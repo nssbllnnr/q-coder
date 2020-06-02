@@ -53,6 +53,7 @@ def main(request):
 """
 @login_required
 def courses(request):
+    form = CourseForm()
     if request.method == 'POST':
         form = CourseForm(request.POST)
         if form.is_valid():
