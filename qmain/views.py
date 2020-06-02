@@ -6,10 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from users.models import Teacher, Student
 from .forms import CourseForm, TaskForm
+from django.views import View 
+from .decorators import allowed_users,teacher_only,unlogined_user
 import random
 import string
 import os
-import io 
+import io
 from pdf2image import convert_from_path
 from pdf2image.exceptions import (
     PDFInfoNotInstalledError,
