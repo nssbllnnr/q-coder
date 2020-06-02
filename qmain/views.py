@@ -59,13 +59,16 @@ def courses(request):
             course.entry_code = random_entry_code()
             course.save()
     try:
-        courses = Course.objects.filter(lector=Teacher.objects.get(user = request.user))
+        if is_member(request.user):
+            courses = Course.objects.filter(lector=Teacher.objects.get(user = request.user))
+        else:
+            courses = Course.objects.filter(students__in=[Student.objects.get(user=request.user)])
     except Course.DoesNotExist:
         courses = None
     context = {
         'courses' : courses,
         'title' : 'Courses',
-        'form': CourseForm(),
+        'form': form,
         'user_is_teacher': is_member(request.user)
     }
     return render(request, 'qmain/courses.html', context)

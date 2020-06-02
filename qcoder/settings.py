@@ -25,13 +25,12 @@ SECRET_KEY = 'ag*53um(fg3is3#scdmxs5f(=o($9egj5cy&ex6!7px9t95z!o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['qcoder.herokuapp.com']
+ALLOWED_HOSTS = ['qcoder.herokuapp.com','127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'crispy_forms',
     'qmain.apps.QmainConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
