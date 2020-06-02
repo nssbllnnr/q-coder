@@ -1,5 +1,4 @@
 {% load static %}
-{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -133,7 +132,6 @@
                 <form method="POST">
                   {% csrf_token %}
                   <p class="h5 mb-4 text-center">Sign up</p>
-                  <!-- {{form|crispy}} -->
                     {% for field in form %}
                     <p>
                         {{ field.label_tag }}<br>

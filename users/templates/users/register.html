@@ -1,5 +1,4 @@
 {% extends "users/base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 <div class="row">  
   <div class="col-sm"></div>
@@ -7,7 +6,6 @@
       <form class="border border-light p-5" method="POST" action="\">
       {% csrf_token %}
       <p class="h4 mb-4 text-center">Sign up</p>
-      <!-- {{form|crispy}} -->
         {% for field in form %}
         <p>
             {{ field.label_tag }}<br>

@@ -1,5 +1,4 @@
 {% extends "users/base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 <div class="row">  
     <div class="col-sm"></div>
@@ -7,7 +6,7 @@
         <form class="border border-light p-5" method="POST">
             {% csrf_token %}
             <p class="h4 mb-4 text-center">Sign in</p>
-            {{form|crispy}}
+            {{form}}
             <div class="d-flex justify-content-between">
                 <div>
                     <div class="custom-control custom-checkbox">
