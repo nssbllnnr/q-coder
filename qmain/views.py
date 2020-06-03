@@ -72,7 +72,8 @@ def courses(request):
         'courses' : courses,
         'title' : 'Courses',
         'form': form,
-        'user_is_teacher': is_member(request.user)
+        'user_is_teacher': is_member(request.user),
+        'user_is_student': is_student(request.user)
     }
     return render(request, 'qmain/courses.html', context)
 
@@ -81,6 +82,8 @@ def courses(request):
 """
 def is_member(user):
     return user.groups.filter(name='Teacher').exists()
+def is_student(user):
+    return user.groups.filter(name='Student').exists()
 """
     Create random entry code for course.
 """
