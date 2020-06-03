@@ -68,6 +68,7 @@ def courses(request):
             courses = Course.objects.filter(students__in=[Student.objects.get(user=request.user)])
     except Course.DoesNotExist:
         courses = None
+        
     context = {
         'courses' : courses,
         'title' : 'Courses',
