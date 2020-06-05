@@ -48,6 +48,52 @@ def main(request):
         form = UserRegisterForm()
     return render(request, 'qmain/landing.html', {'form': form})
 
+#@method_decorator([login_required], name='dispatch')
+class CourseView(View):
+    form_class = CourseForm
+    initial = {'key': 'value'}
+    template_name = 'qmain/courses.html'
+    def get(self, request, id = 0):
+        if id != 0:
+            course = get_object_or_404(Course, pk=id)
+            form = self.form_class(instance=course)  
+        else:
+            form = self.form_class(initial=self.initial)
+        context = {
+            'courses' : self.get_courses(request),
+            'title' : 'Courses',
+            'form': form,
+            'user_is_teacher': self.is_member(request.user),
+            'user_is_student': self.is_student(request.user)
+        }
+        return render(request, self.template_name, context=context)
+
+    # def post(self, request, id = 0):
+    #     form = self.form_class(request.POST)
+    #     if form.is_valid():
+    #         course = form.save()
+    #         course.lector = Teacher.objects.get(user = request.user)
+    #         course.entry_code = random_entry_code()
+    #         course.save()
+    #     form = self.form_class(initial=self.initial)
+    #     context = self.get_context_data(request, form, **kwargs)
+    #     return render(request, self.template_name, context=context)
+
+    def get_courses(self, request):
+        try:
+            if self.is_member(request.user):
+                return Course.objects.filter(lector=Teacher.objects.get(user = request.user))
+            else:
+                return Course.objects.filter(students__in=[Student.objects.get(user=request.user)])
+        except Course.DoesNotExist:
+            return None
+
+    def is_member(self, user):
+        return user.groups.filter(name='Teacher').exists()
+    def is_student(self, user):
+        return user.groups.filter(name='Student').exists()
+
+
 """
     Page of courses list. Have course creating form.
 """
