@@ -69,11 +69,9 @@
         {% for course in courses %}
         <!--Grid column-->
         <div class="col-md-4 mb-2">
-
           <!-- Card -->
           <div class="card gradient-card">
               <div class="card-image">
-                
                 <!-- Content -->
                 <a href="{% url 'course' course.id %}">
                   <div class="text-dark d-flex h-100 mask">
@@ -87,7 +85,6 @@
                     </div>
                   </div>
                 </a>
-
               </div>
           </div>
           <!-- Card -->
@@ -135,7 +132,6 @@
             <label data-error="wrong" data-success="right" for="defaultForm">Course year</label>
             {{form.year}}
           </div>
-         
         <div class="modal-footer d-flex justify-content-center">
           <button class="btn btn-default">Create course</button>
         </div>
