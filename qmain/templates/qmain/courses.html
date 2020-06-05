@@ -47,10 +47,11 @@
                     <div class="first-content align-self-center p-3">
                       <h3 class="card-title">{{ course.name }}</h3>
                       <p class="lead md-0">Course code: {{ course.code }}</p>
-                      <p class="card-text">Entry code: 
+                      <p class="card-text" id="ent_code">Entry code: 
                         {% if course.entry_code %}
                         <span>{{ course.entry_code }}</span>
                         {% endif %}
+                      <button class="btn btn-primary" onclick="clipboard('copy')"><i class="fa fa-clone"></i></button>
                       </p>
                     </div>
                   </div>
@@ -178,6 +179,13 @@
       $("#formCourseStudent").toggle();
     }); 
   });
+  function clipboard(value){
+    var ent_code=document.getElementById('ent_code');
+    ent_code.select();
+    if(value== 'copy'){
+      document.execCommand('copy');
+    }
+  }
 </script>
 </div>
 
