@@ -11,6 +11,8 @@ class CourseForm(ModelForm):
             'code': TextInput(attrs={'class':'form-control validate',  'placeholder':'Code'}),
             'description': Textarea(attrs={'class':'form-control validate',  'placeholder':'Description'}),
             'year': TextInput(attrs={'class': 'form-control validate',  'placeholder':'Year'}),
+            
+           
         }
 
 class TaskForm(ModelForm):
