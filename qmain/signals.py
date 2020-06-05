@@ -9,4 +9,5 @@ from .models import Course, Task
 def course_update(sender,instance,**kwargs):
     instance.course.save()
     print("Course was updated")
+    
 post_save.connect(course_update,sender=Teacher)
