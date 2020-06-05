@@ -32,7 +32,7 @@
       
       <!--Grid row-->
       <div class="row">
-        
+        {% if user_is_teacher %}
         {% for course in courses %}
         <!--Grid column-->
         <div class="col-md-4 mb-2">
@@ -63,6 +63,39 @@
         </div>
         <!--Grid column-->
         {% endfor %}
+        {% endif %}
+
+        {% if user_is_student %}
+        {% for course in courses %}
+        <!--Grid column-->
+        <div class="col-md-4 mb-2">
+
+          <!-- Card -->
+          <div class="card gradient-card">
+              <div class="card-image">
+                
+                <!-- Content -->
+                <a href="{% url 'course' course.id %}">
+                  <div class="text-dark d-flex h-100 mask">
+                    <div class="first-content align-self-center p-3">
+                      {% if course.entry_code %}
+                      <h3 class="card-title">{{ course.name }}</h3>
+                      <p class="lead md-0">Course code: {{ course.code }}</p>
+                      <p class="lead md-0">Course lector: {{ course.lector }}</p>
+                      {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                </a>
+
+              </div>
+          </div>
+          <!-- Card -->
+
+        </div>
+        <!--Grid column-->
+        {% endfor %}
+        {% endif %}
 
       </div>
       <!--Grid row-->
@@ -102,6 +135,7 @@
             <label data-error="wrong" data-success="right" for="defaultForm">Course year</label>
             {{form.year}}
           </div>
+         
         <div class="modal-footer d-flex justify-content-center">
           <button class="btn btn-default">Create course</button>
         </div>
@@ -110,7 +144,7 @@
   </div>
   </div>
 </form>
-<form id="formCourseStudent" method="POST" action="courses">
+<form id="formCourseStudent" method="POST" action="joinCourse">
   {% csrf_token %}
 
   <div class="modal fade" id="joinCourseModal" tabindex="-1" role="dialog" aria-labelledby="joinCourseModal"
@@ -126,8 +160,8 @@
         </div>
         <div class="modal-body mx-3">
           <div class="form-group">
-            <label data-error="wrong" data-success="right" for="defaultForm">Enter course code</label>
-            {{form.entry_code}}
+            <label data-error="wrong" data-success="right" for="entry_code">Enter course code</label>
+            <input id="entry_code" type="text" name="entry_code" value="">
           </div>
         <div class="modal-footer d-flex justify-content-center">
           <button class="btn btn-default">Join Course</button>

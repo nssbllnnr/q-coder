@@ -111,7 +111,7 @@ def courses(request):
         if is_member(request.user):
             courses = Course.objects.filter(lector=Teacher.objects.get(user = request.user))
         else:
-            courses = Course.objects.filter(students__in=[Student.objects.get(user=request.user)])
+                courses = Course.objects.filter(students__in=[Student.objects.get(user=request.user)])
     except Course.DoesNotExist:
         courses = None
         
@@ -124,6 +124,15 @@ def courses(request):
     }
     return render(request, 'qmain/courses.html', context)
 
+@login_required
+@allowed_users(allowed_roles=['Student'])
+def joinCourse(request):
+    if request.method == 'POST':
+        student=Student.objects.get(user=request.user)
+        course = Course.objects.get(entry_code=request.POST['entry_code'])
+        course.students.add(student)
+        
+    return redirect('courses')
 """
     Give permission for creating a courses to the Teacher.
 """
@@ -222,3 +231,4 @@ def check_exam(request, course_id, task_id):
 def task(request, course_id, task_id):
     assignments = Assignments.objects.filter(task_id=task_id)
     return  render(request, 'qmain/task.html', {'title':'Task assignmets', 'course_id':course_id, 'assignments':assignments})
+
