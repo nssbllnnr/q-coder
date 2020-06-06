@@ -1,18 +1,17 @@
-from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, DateTimeField
+from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, DateTimeField, Select
 from .models import Course, Task
 
 # Create the form class.
 class CourseForm(ModelForm):
     class Meta:
         model = Course
-        fields = ['name', 'code', 'description','year']
+        fields = ['name', 'code', 'description','year', 'term']
         widgets = {
             'name': TextInput(attrs={'class': 'form-control validate', 'placeholder':'Title'}),
             'code': TextInput(attrs={'class':'form-control validate',  'placeholder':'Code'}),
             'description': Textarea(attrs={'class':'form-control validate',  'placeholder':'Description'}),
             'year': TextInput(attrs={'class': 'form-control validate',  'placeholder':'Year'}),
-            
-           
+            'term': Select(attrs={'class': 'form-control validate',  'placeholder':'Term'}),
         }
 
 class TaskForm(ModelForm):

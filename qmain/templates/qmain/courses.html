@@ -1,22 +1,6 @@
 {% extends "qmain/base.html" %}
 {% block content %}
-
 <div class="container-fluid mt-5">
-  <!-- Heading -->
-  <!-- <div class="card mb-4 wow fadeIn">
-    <div class="card-body d-sm-flex justify-content-between">
-      <h5 class="">
-        {% if title %}
-          {{ title }}
-        {% endif %}
-      </h5>
-      {% if user_is_teacher %}
-        <button class="btn btn-flat" data-toggle="modal" data-target="#createCourseModal" id="formButton">Create New Course</button>
-      {% endif %}
-    </div>
-  </div> -->
-  <!-- Heading -->
-
   <!--Grid row-->
   <div class="row wow fadeIn">
 
@@ -24,39 +8,42 @@
       <button class="btn btn-danger mx-3 my-3" data-toggle="modal" data-target="#createCourseModal" id="formButton">Create New Course</button>
     {% endif %}
     {% if user_is_student %}
-    <button class="btn btn-orange mx-3 my-3" data-toggle="modal" data-target="#joinCourseModal" id="formJoin">Join Course</button>
+      <button class="btn btn-orange mx-3 my-3" data-toggle="modal" data-target="#joinCourseModal" id="formJoin">Join Course</button>
     {% endif %}
    
     <!--Grid column-->
     <div class="col-md-12 mb-6">
-      
       <!--Grid row-->
-      <div class="row">
+      <div class="row" id="course-teacher-cards">
         {% if user_is_teacher %}
         {% for course in courses %}
         <!--Grid column-->
         <div class="col-md-4 mb-2">
-
           <!-- Card -->
           <div class="card gradient-card">
-              <div class="card-image">
-                <a href="{% url 'editCourse' course.id %}"  class=" btn btn-rounded text-white purple lighten-2 btn-sm add-new-row" type="button"  data-toggle="modal" data-target="#EditForm"><i class="fas fa-pen"></i></button>
-                <!-- Content -->
-                <a href="{% url 'course' course.id %}">
-                  <div class="text-dark d-flex h-100 mask">
-                    <div class="first-content align-self-center p-3">
-                      <h3 class="card-title">{{ course.name }}</h3>
-                      <p class="lead md-0">Course code: {{ course.code }}</p>
-                      <p class="card-text">Entry code: 
-                        {% if course.entry_code %}
-                        <span>{{ course.entry_code }}</span>
-                        {% endif %}
-                      </p>
-                    </div>
+            <div class="card-image">
+              <a href="{% url 'updateCourse' course.id %}" class="btn btn-rounded btn-sm green darken-3 text-white">
+                <i class="fas fa-pen"></i>
+              </a>
+              <a href="{% url 'deleteCourse' course.id %}" class="btn btn-rounded btn-sm red darken-3 text-white">
+                <i class="fas fa-eraser"></i>
+              </a>
+              <!-- Content -->
+              <a href="{% url 'course' course.id %}">
+                <div class="text-dark d-flex h-100 mask">
+                  <div class="first-content align-self-center p-3">
+                    <h3 class="card-title">{{ course.name }}</h3>
+                    <p class="lead md-0">Course code: {{ course.code }}</p>
+                    <p class="card-text">Entry code: 
+                      {% if course.entry_code %}
+                      <span>{{ course.entry_code }}</span>
+                      {% endif %}
+                    </p>
                   </div>
-                </a>
-
-              </div>
+                </div>
+              </a>
+              <!-- Content -->
+            </div>
           </div>
           <!-- Card -->
 
@@ -64,7 +51,8 @@
         <!--Grid column-->
         {% endfor %}
         {% endif %}
-
+      </div>
+      <div class="row" id="course-student-cards">
         {% if user_is_student %}
         {% for course in courses %}
         <!--Grid column-->
@@ -104,12 +92,9 @@
 
   </div>
   <!--Grid row-->
-  <form id="formcourse" method="POST" action="courses">
+<form id="formcourse" method="POST" action="courses">
   {% csrf_token %}
-
-  <div class="modal fade" id="createCourseModal" tabindex="-1" role="dialog" aria-labelledby="createCourseModal"
-    aria-hidden="true">
-    
+  <div class="modal fade" id="createCourseModal" tabindex="-1" role="dialog" aria-labelledby="createCourseModal" aria-hidden="true"> 
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header text-center">
@@ -135,18 +120,20 @@
             <label data-error="wrong" data-success="right" for="defaultForm">Course year</label>
             {{form.year}}
           </div>
-         
-        <div class="modal-footer d-flex justify-content-center">
-          <button class="btn btn-default">Create course</button>
+          <div class="form-group">
+            <label data-error="wrong" data-success="right" for="defaultForm">Course term</label>
+            {{form.term}}
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-default">Create course</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  </div>
 </form>
 <form id="formCourseStudent" method="POST" action="joinCourse">
   {% csrf_token %}
-
   <div class="modal fade" id="joinCourseModal" tabindex="-1" role="dialog" aria-labelledby="joinCourseModal"
     aria-hidden="true">
     
@@ -171,59 +158,6 @@
   </div>
   </div>
 </form>
-
-
-<script>
-  $(document).ready(function() {
-    $("#formButton").click(function() {
-      $("#formcourse").toggle();
-    });
-    $("#formJoin").click(function() {
-      $("#formCourseStudent").toggle();
-    }); 
-  });
-</script>
 </div>
-
-
-<div class="container-fluid mt-5">
-  <div class="modal fade" id="EditForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <form method="POST">
-          {% csrf_token %}
-          <div class="modal-header text-center">
-            <h4 class="modal-title w-100 font-weight-bold">Task Editor</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body mx-3">
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course title</label>
-              {{form.name}}
-            </div>
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course code</label>
-              {{form.code}}
-            </div>
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course description</label>
-              {{form.description}}
-            </div>
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course year</label>
-              {{form.year}}
-            </div>
-        </div>
-        <div class="modal-footer d-flex justify-content-center">
-          <button type="submit" class="btn btn-rounded text-white purple lighten-2">Edit course</button>
-        </div>
-      </form>
-      </div>
-    </div>
-  </div>
-</div>      
 {% endblock content %}
 

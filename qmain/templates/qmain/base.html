@@ -15,8 +15,6 @@
     <!-- Your custom styles (optional) -->
     <link href="{% static 'qmain/css/style.min.css' %}" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
     
     
@@ -130,5 +128,7 @@
     // Animations initialization
     new WOW().init();
   </script>
+  {% block javascript %}
+  {% endblock %}
 </body>
 </html>
