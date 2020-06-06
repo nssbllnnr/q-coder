@@ -34,23 +34,10 @@
                   <div class="first-content align-self-center p-3">
                     <h3 class="card-title">{{ course.name }}</h3>
                     <p class="lead md-0">Course code: {{ course.code }}</p>
-                    <p class="card-text">Entry code: 
+                    <p class="card-text" id="ent_code">Entry code: 
                       {% if course.entry_code %}
                       <span>{{ course.entry_code }}</span>
                       {% endif %}
-                    </p>
-              <div class="card-image">
-                <a href="{% url 'editCourse' course.id %}"  class=" btn btn-rounded text-white purple lighten-2 btn-sm add-new-row" type="button"  data-toggle="modal" data-target="#EditForm"><i class="fas fa-pen"></i></button>
-                <!-- Content -->
-                <a href="{% url 'course' course.id %}">
-                  <div class="text-dark d-flex h-100 mask">
-                    <div class="first-content align-self-center p-3">
-                      <h3 class="card-title">{{ course.name }}</h3>
-                      <p class="lead md-0">Course code: {{ course.code }}</p>
-                      <p class="card-text" id="ent_code">Entry code: 
-                        {% if course.entry_code %}
-                        <span>{{ course.entry_code }}</span>
-                        {% endif %}
                       <button class="btn btn-primary" onclick="clipboard('copy')"><i class="fa fa-clone"></i></button>
                       </p>
                     </div>
