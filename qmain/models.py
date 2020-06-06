@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from users.models import Student, Teacher
+from django.db.models.signals import post_save,pre_save, post_delete
+from django.dispatch import receiver
 
 class Course(models.Model):
     SEMESTERS = [
@@ -41,5 +43,5 @@ class Assignments(models.Model):
 class AssignmentLinks(models.Model):
     link = models.CharField(max_length=4096) 
     task_file = models.ForeignKey(Assignments, on_delete=models.CASCADE) 
-    
+
     
