@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',  
+    'django.contrib.staticfiles',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
 
 LOGIN_REDIRECT_URL = 'courses'
 LOGIN_URL = 'login'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
