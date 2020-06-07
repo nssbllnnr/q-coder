@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User, Group
 from django.views import View 
+from users.forms import UserRegisterForm
 from ..models import *
 from ..forms import *
 from users.models import *

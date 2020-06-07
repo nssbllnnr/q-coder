@@ -4,11 +4,16 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User, Group
 from django.views import View 
+from django.db.models import Value as V
+from django.db.models.functions import Concat 
 from ..models import *
 from ..forms import *
 from users.models import *
 from users.forms import *
 from ..decorators import *
+from .exam_evaluate import exam_evaluate_map, get_mark
+import random
+import string
 
 @method_decorator([login_required], name='dispatch')
 class AssignmentsView(View):
@@ -47,46 +52,24 @@ def course(request, id):
     Ulzhan's code for checking exams.
 """
 @login_required
-def check_exam(request, course_id, task_id):
+def exam_evaluation(request, course_id, task_id):
     if request.method == 'POST':
-        path = 'media/diploma.pdf'
-        fname = os.path.splitext(os.path.basename(path))[0]
-        pdf = PdfFileReader(path)
-        #split pdf file to multiple pds
-        for page in range(pdf.getNumPages()):
-            pdf_writer = PdfFileWriter()
-            pdf_writer.addPage(pdf.getPage(page))
-            output_filename = 'media/diploma/{}_page_{}.pdf'.format(
-                fname, page+1)
-            with open(output_filename, 'wb') as out:
-                pdf_writer.write(out)
-            #print('Created: {}'.format(output_filename))
-            
-        #convert pdf to png, because tesseracts workd only with png file 
-        for page in range(pdf.getNumPages()):
-            images = convert_from_path('media/diploma/{}_page_{}.pdf'.format(
-                fname, page+1))
-            for image in images:
-                image.save('media/diploma/{}_page_{}.png'.format(fname, page+1),'PNG')
-                image_name2 = 'media/diploma/{}_page_{}.png'.format(fname, page+1)
-                #crop name or id
-                img = Image.open(image_name2)
-                student_id = img.crop((430, 0, 920, 276))
-                student_id.save('media/diploma/student_{}.png'.format(page+1))
-                img_cv = cv2.imread('media/diploma/student_{}.png'.format(page+1))
-                student_id_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
-                student_id_text =pytesseract.image_to_string(student_id_rgb)
-                if User.objects.filter(groups__name='Student').filter(last_name=student_id_text).exists():
-                    #tesseract converts handwriting to txx file 
-                    img_cv = cv2.imread(image_name2)
-                    img_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB)
-                    new =pytesseract.image_to_string(img_rgb)
-                    true_answers = open('media/RightAnswers.txt').read()
-                    m = SequenceMatcher(None, new, true_answers) #insert mark
-                    mark = m.ratio()*1388 #insert markz
-                    Assignments.objects.create(grade=mark, task=Task.objects.get(id=task_id), student=Student.objects.get(user= User.objects.filter(groups__name='Student').filter(last_name=student_id_text).first()))
+        path = 'media/diploma_page_4.pdf'
+        data = exam_evaluate_map(path)
+        for key in data:
+            print(key)
+            if User.objects.annotate(full_name=Concat('first_name', V(' '), 'last_name')).filter(full_name__icontains=key).exists():
+                mark = get_mark(data[key])
+                _user = User.objects.filter(groups__name='Student').\
+                                        annotate(full_name=Concat('first_name', V(' '), 'last_name')).\
+                                        filter(full_name__icontains=key).first()
+                _student = Student.objects.get(user=_user)
+                Assignments.objects.create( grade=mark, 
+                                            task=Task.objects.get(id=task_id), 
+                                            student=_student)
     assignments = Assignments.objects.filter(task_id=task_id)
     return  render(request, 'qmain/check_exam.html', {'title':'Exam check', 'course_id':course_id, 'task_id':task_id, 'assignments':assignments})
+
 
 """
     List of the task assignments.

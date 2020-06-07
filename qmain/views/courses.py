@@ -122,7 +122,7 @@ class CourseDeleteView(View):
 @allowed_users(allowed_roles=['Student'])
 def joinCourse(request):
     if request.method == 'POST':
-        student=Student.objects.get(user=request.user)
+        student = Student.objects.get(user=request.user)
         course = Course.objects.get(entry_code=request.POST['entry_code'])
         course.students.add(student)
         
