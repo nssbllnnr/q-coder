@@ -1,4 +1,5 @@
 {% extends "qmain/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="modal fade" id="modalCheckForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
@@ -13,14 +14,7 @@
             <form method="POST">
                 {% csrf_token %}
                 <div class="input-group">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01"
-                        aria-describedby="inputGroupFileAddon01">
-                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                    </div>
+                    {{form|crispy}}
                 </div>
                 <div class="input-group">
                     <button class="btn mdb-color my-4 btn-block white-text" type="submit">Check</button>
