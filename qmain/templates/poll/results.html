@@ -1,0 +1,36 @@
+{% extends "qmain/base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <!--Grid row-->
+    <div class="row wow fadeIn">
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Question Result</h3>
+            </div>
+
+            <div class="panel-body">
+                <h3>{{ poll.question }}</h3>
+            </div>
+
+            <ul class="list-group">
+                <li class="list-group-item">{{ poll.option_one }} &mdash; <strong>{{ poll.option_one_count }}</strong></li>
+                <li class="list-group-item">{{ poll.option_two }} &mdash; <strong>{{ poll.option_two_count }}</strong></li>
+                <li class="list-group-item">{{ poll.option_three }} &mdash; <strong>{{ poll.option_three_count }}</strong></li>
+            </ul>
+
+            <div class="panel-footer">
+                Total &mdash; <strong>{{ poll.total }}</strong>
+            </div>
+            <a href="{% url 'quizzes' course_id  %}"><input type="button" value="Back" class="btn btn-primary" /></a>
+
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+{% endblock %}
