@@ -1,5 +1,7 @@
 from django.forms import *
 from .models import *
+from .models import Poll
+from django.forms import ModelForm
 
 
 # Create the form class.
@@ -24,7 +26,17 @@ class TaskForm(ModelForm):
             'description': Textarea(attrs={'class':'md-textarea form-control','placeholder':'Description','rows':'3'}),
             'deadline' : DateTimeInput(attrs={'type':'date'}, format="%d-%m-%Y %H:%M:%S")
         }
+
+
+
 class DocumentForm(ModelForm):
     class Meta:
         model = Document
         fields = ['document', 'description']
+
+
+
+class CreatePollForm(ModelForm):
+    class Meta:
+        model = Poll
+        fields = ['question', 'option_one', 'option_two', 'option_three']

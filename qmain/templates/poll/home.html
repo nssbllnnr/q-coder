@@ -1,0 +1,76 @@
+{% extends "qmain/base.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content  %}
+<div class="container-fluid mt-5">
+    <!--Grid row-->
+    <div class="row wow fadeIn">
+            <!-- Card -->
+        <div class="card">
+            <div class="panel-heading">
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav" >
+                        <li><a href="{% url 'quizzes-create' course_id %}" class="btn btn-rounded btn-sm red darken-3 text-white">Create</a></li>
+                    </ul>
+                </div>
+                <h3 class="panel-title">Questions:</h3>
+            </div>
+  
+    <!-- Card content -->
+            <div class="card-body">
+  
+                <ul class="list-group">
+                    {% for poll in polls %}
+                    <li class="list-group-item">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2>{{ poll.question }}</h2>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr />
+            
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="poll" value="option1" required>
+                                                    {{ poll.option_one}}
+                                                </label> &nbsp;
+                                                <label>
+                                                    <input type="radio" name="poll" value="option2">
+                                                    {{ poll.option_two}}
+                                                </label> &nbsp;
+                                                <label>
+                                                    <input type="radio" name="poll" value="option3">
+                                                    {{ poll.option_three}}
+                                                </label> &nbsp;
+                                            </div>
+                                        </div>
+                                        
+                                        <hr />    
+                                    </form>
+                                    <span class="pull-right">
+                                        <a href="{% url 'quizzes-vote' course_id poll.id %}" class="btn btn-info btn-sm">Submit</a> &nbsp;
+                                        <a href="{% url 'quizzes-results' course_id poll.id %}" class="btn btn-default btn-sm">View Results</a> &nbsp;
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+  
+            </div>
+  
+         </div>
+  <!-- Card -->
+    </div>
+</div>
+{% endblock %}
