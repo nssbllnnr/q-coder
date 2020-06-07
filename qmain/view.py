@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Course, Student, Task, Assignments
+from .models import Course, Task, Assignments
 from django.contrib import messages
 from users.forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
@@ -48,6 +48,55 @@ def main(request):
         form = UserRegisterForm()
     return render(request, 'qmain/landing.html', {'form': form})
 
+<<<<<<< HEAD:qmain/views.py
+#@method_decorator([login_required], name='dispatch')
+'''class CourseView(View):
+    form_class = CourseForm
+    initial = {'key': 'value'}
+    template_name = 'qmain/courses.html'
+    def get(self, request, id = 0):
+        if id != 0:
+            course = get_object_or_404(Course, pk=id)
+            form = self.form_class(instance=course)  
+        else:
+            form = self.form_class(initial=self.initial)
+        context = {
+            'courses' : self.get_courses(request),
+            'title' : 'Courses',
+            'form': form,
+            'user_is_teacher': self.is_member(request.user),
+            'user_is_student': self.is_student(request.user)
+        }
+        return render(request, self.template_name, context=context)
+
+    # def post(self, request, id = 0):
+    #     form = self.form_class(request.POST)
+    #     if form.is_valid():
+    #         course = form.save()
+    #         course.lector = Teacher.objects.get(user = request.user)
+    #         course.entry_code = random_entry_code()
+    #         course.save()
+    #     form = self.form_class(initial=self.initial)
+    #     context = self.get_context_data(request, form, **kwargs)
+    #     return render(request, self.template_name, context=context)
+
+    def get_courses(self, request):
+        try:
+            if self.is_member(request.user):
+                return Course.objects.filter(lector=Teacher.objects.get(user = request.user))
+            else:
+                return Course.objects.filter(students__in=[Student.objects.get(user=request.user)])
+        except Course.DoesNotExist:
+            return None
+
+    def is_member(self, user):
+        return user.groups.filter(name='Teacher').exists()
+    def is_student(self, user):
+        return user.groups.filter(name='Student').exists()
+
+'''
+=======
+>>>>>>> af1227b022a797538ff1780c0779fdbc03ce2d5a:qmain/view.py
 """
     Page of courses list. Have course creating form.
 """
@@ -102,6 +151,12 @@ def random_entry_code():
     rnd= ''.join(random.choice(letters) for i in range(8))
     return rnd
 
+def random_color():
+    bgColors = ['danger-color', 'danger-color-dark', 'warning-color', 'warning-color-dark', 
+'success-color', 'success-color-dark', 'info-color', 'info-color-dark']
+    rnd=random.choice(bgColors)
+    return rnd
+    
 #code which We didn't use)))
 @login_required
 def assignments(request):
@@ -185,4 +240,5 @@ def check_exam(request, course_id, task_id):
 def task(request, course_id, task_id):
     assignments = Assignments.objects.filter(task_id=task_id)
     return  render(request, 'qmain/task.html', {'title':'Task assignmets', 'course_id':course_id, 'assignments':assignments})
+
 

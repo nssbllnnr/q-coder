@@ -159,6 +159,7 @@
 
 
 <script>
+  
   $(document).ready(function() {
     $("#formButton").click(function() {
       $("#formcourse").toggle();
@@ -167,6 +168,11 @@
       $("#formCourseStudent").toggle();
     }); 
   });
+<<<<<<< HEAD
+  function copy_code(){
+    var ent_code=document.getElementById('ent_code');
+    ent_code.select();
+=======
   function clipboard(value) {
     let element = document.getElementById(value); //select the element
     let elementText = element.textContent; //get the text content from the element
@@ -177,8 +183,61 @@
   // and pass the string to copied as the argument.
   function copyText(text) {
     navigator.clipboard.writeText(text);
+>>>>>>> af1227b022a797538ff1780c0779fdbc03ce2d5a
   }
+  
+  const bgColors = ['danger-color', 'danger-color-dark', 'warning-color', 'warning-color-dark', 
+'success-color', 'success-color-dark', 'info-color', 'info-color-dark']
+  const randomColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+  var text= "card-header bg-"+ randomColor;
+  document.getElementById("divColor").class = text;
+
 </script>
 </div>
+<<<<<<< HEAD
+
+
+<div class="container-fluid mt-5">
+  <div class="modal fade" id="EditForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">Task Editor</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mx-3">
+            <div class="form-group">
+              <label data-error="wrong" data-success="right" for="defaultForm">Course title</label>
+              {{form.name}}
+            </div>
+            <div class="form-group">
+              <label data-error="wrong" data-success="right" for="defaultForm">Course code</label>
+              {{form.code}}
+            </div>
+            <div class="form-group">
+              <label data-error="wrong" data-success="right" for="defaultForm">Course description</label>
+              {{form.description}}
+            </div>
+            <div class="form-group">
+              <label data-error="wrong" data-success="right" for="defaultForm">Course year</label>
+              {{form.year}}
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="submit" class="btn btn-rounded text-white purple lighten-2">Edit course</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>     
+
+=======
+>>>>>>> af1227b022a797538ff1780c0779fdbc03ce2d5a
 {% endblock content %}
 

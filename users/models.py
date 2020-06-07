@@ -12,6 +12,7 @@ class Student(models.Model):
     graduation_year = models.IntegerField(null=True)
     enrollment_year = models.IntegerField(null=True)
     phone = models.CharField(max_length=11, null=True)
+    profile_img = models.ImageField(default="user.jpg",null=True, blank=True)
 
 """
     Teacher model, created after User register as Teacher
@@ -21,6 +22,7 @@ class Teacher(models.Model):
     faculty =  models.CharField(max_length=4096, null=True)
     degree =  models.CharField(max_length=4096, null=True) 
     position =  models.CharField(max_length=4096, default='Teacher', null=True)
+    profile_img = models.ImageField(default="user.jpg",null=True, blank=True)
 
 
 
