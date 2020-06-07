@@ -59,7 +59,7 @@ def exam_evaluation(request, course_id, task_id):
         for key in data:
             print(key)
             if User.objects.annotate(full_name=Concat('first_name', V(' '), 'last_name')).filter(full_name__icontains=key).exists():
-                mark = get_mark(data[key])
+                mark = get_mark(data[key], 'media/RightAnswers.txt')
                 _user = User.objects.filter(groups__name='Student').\
                                         annotate(full_name=Concat('first_name', V(' '), 'last_name')).\
                                         filter(full_name__icontains=key).first()
@@ -68,8 +68,21 @@ def exam_evaluation(request, course_id, task_id):
                                             task=Task.objects.get(id=task_id), 
                                             student=_student)
     assignments = Assignments.objects.filter(task_id=task_id)
-    return  render(request, 'qmain/check_exam.html', {'title':'Exam check', 'course_id':course_id, 'task_id':task_id, 'assignments':assignments})
+    form = DocumentForm()
+    return  render(request, 
+                   'qmain/check_exam.html', 
+                   {
+                        'title':'Exam check', 
+                        'course_id':course_id, 
+                        'task_id':task_id, 
+                        'assignments' : assignments, 
+                        'form':form
+                   })
 
+def handle_uploaded_file(f, path):
+    with open(path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 """
     List of the task assignments.

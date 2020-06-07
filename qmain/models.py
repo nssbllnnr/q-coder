@@ -45,4 +45,8 @@ class AssignmentLinks(models.Model):
     link = models.CharField(max_length=4096) 
     task_file = models.ForeignKey(Assignments, on_delete=models.CASCADE) 
 
+class Document(models.Model):
+    description = models.CharField(max_length=255, blank=True)
+    document = models.FileField(upload_to='documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
