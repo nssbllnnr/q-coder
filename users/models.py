@@ -19,8 +19,8 @@ class Student(models.Model):
 """
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    faculty =  models.CharField(max_length=4096, null=True)
-    degree =  models.CharField(max_length=4096, null=True) 
+    faculty =  models.CharField(max_length=4096, default='Engineering',null=True)
+    degree =  models.CharField(max_length=4096, default='PhD', null=True) 
     position =  models.CharField(max_length=4096, default='Teacher', null=True)
     profile_img = models.ImageField(default="user.jpg",null=True, blank=True)
 

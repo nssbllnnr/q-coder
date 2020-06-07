@@ -68,7 +68,7 @@
                       {% if course.entry_code %}
                       <h3 class="card-title">{{ course.name }}</h3>
                       <p class="lead md-0">Course code: {{ course.code }}</p>
-                      <p class="lead md-0">Course lector: {{ course.lector }}</p>
+                      <p class="lead md-0">Course lector: {{ course.lector.user.first_name }}   {{ course.lector.user.last_name }}</p>
                       {% endif %}
                       </p>
                     </div>

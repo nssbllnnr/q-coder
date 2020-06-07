@@ -112,18 +112,17 @@ def exam_evaluate_map(path):
         page.save(image_name,'PNG')
         img = Image.open(image_name)
         img = cv2.imread(image_name)
-        cropped_image = img[160:250, 1100:1450]
-        cv2.imshow("id",cropped_image)
-        cv2.waitKey(0)
-        cv2.imwrite('media/diploma/student_id.png', cropped_image)
-        id = student_id('media/diploma/student_id.png')
-        print(id)
-        #student_full_name = pytesseract.image_to_string(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB))
-        data[id] = image_name 
+        #cropped_image = img[160:250, 1100:1450]
+        cropped_image = img[160:250, 400:850]
+        #cv2.imwrite('media/diploma/student_id.png', cropped_image)
+        #id = student_id('media/diploma/student_id.png')
+        #print(id)
+        student_full_name = pytesseract.image_to_string(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB))
+        data[student_full_name] = image_name 
         count += 1
     return data
 
-# exam_evaluate_map('media/diploma_page_4.pdf')
+exam_evaluate_map('media/diploma_page_4.pdf')
 
 
 

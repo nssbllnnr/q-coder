@@ -85,6 +85,10 @@
                 <a href="{% url 'exams' course_id task.id %}"><i class="fas fa-external-link-square-alt cyan-text"></i>
                 </a>
               </td>
+              <td>
+                <a href="{% url 'bubble_sheet' course_id task.id %}"><i class="fas fa-external-link-square-alt cyan-text"></i>
+                </a>
+              </td>
             </tr>  
           {% endfor %}
           </tbody>

@@ -37,15 +37,16 @@ def register(request):
 """
 @login_required
 def profile(request):
-    teacher=Teacher.objects.get(user=request.user)
+    #teacher=Teacher.objects.get(user=request.user)
     form=TeacherForm()
     if request.method=='POST':
-        if is_member(teacher):
+        if is_member(user):
+            teacher=Teacher.objects.get(user=request.user)
             form=TeacherForm(request.POST,request.FILES,instance=teacher)
             if form.is_valid:
                 form.save()
     
-    context={'form':form}
+    context={'form':form, 'title':'Courses'}
     return render(request, 'users/profile.html', context)
 
 def is_member(user):
