@@ -10,5 +10,6 @@ urlpatterns = [
     path('course/<int:id>/students', assignments.students, name='students'),
     path('course/<int:id>/tasks', assignments.course, name='course'),
     path('course/<int:course_id>/tasks/<int:task_id>', assignments.exam_evaluation, name='exams'),
+    path('course/<int:course_id>/tasks/<int:task_id>/bubble_sheet', assignments.bubble_sheet, name='bubble_sheet'),
     path('course/<int:course_id>/tasks/<int:task_id>/list',assignments.task, name='task'),
 ]

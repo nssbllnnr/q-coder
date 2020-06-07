@@ -11,7 +11,7 @@ from ..forms import *
 from users.models import *
 from users.forms import *
 from ..decorators import *
-from .exam_evaluate import exam_evaluate_map, get_mark
+from .exam_evaluate import exam_evaluate_map, get_mark, mark
 import random
 import string
 
@@ -71,6 +71,26 @@ def exam_evaluation(request, course_id, task_id):
     form = DocumentForm()
     return  render(request, 
                    'qmain/check_exam.html', 
+                   {
+                        'title':'Exam check', 
+                        'course_id':course_id, 
+                        'task_id':task_id, 
+                        'assignments' : assignments, 
+                        'form':form
+                   })
+
+
+@login_required
+def bubble_sheet(request, course_id, task_id):
+    if request.method == 'POST':
+        path = 'media/bubble_sheet.jpg'
+        score = mark(path, {0: 1, 1: 4, 2: 0, 3: 3, 4: 1})
+        Assignments.objects.create( grade=score, 
+                                    task=Task.objects.get(id=task_id))
+    assignments = Assignments.objects.filter(task_id=task_id)
+    form = DocumentForm()
+    return  render(request, 
+                   'qmain/bubble_sheet.html', 
                    {
                         'title':'Exam check', 
                         'course_id':course_id, 
