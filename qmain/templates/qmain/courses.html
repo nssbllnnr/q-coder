@@ -5,7 +5,7 @@
   <div class="row wow fadeIn">
 
     {% if user_is_teacher %}
-      <button class="btn btn-danger mx-3 my-3" data-toggle="modal" data-target="#createCourseModal" id="formButton">Create New Course</button>
+      <button class="btn btn-grey darken-3 mx-3 my-3" data-toggle="modal" data-target="#createCourseModal" id="formButton">Create New Course</button>
     {% endif %}
     {% if user_is_student %}
       <button class="btn btn-orange mx-3 my-3" data-toggle="modal" data-target="#joinCourseModal" id="formJoin">Join Course</button>
@@ -21,33 +21,10 @@
         <div class="col-md-4 mb-2">
           <!-- Card -->
           <div class="card gradient-card">
-<<<<<<< HEAD
-              <div class="card-image">
-               
-                <!-- Content -->
-                <a href="{% url 'course' course.id %}">
-                  <div class="card-header bg-warning" id="divColor" style="height: 10px;"></div>
-                  <div class="text-dark d-flex h-100 mask">
-                    <div class="first-content align-self-center p-3">
-                      <h3 class="card-title">{{ course.name }}</h3>
-                      <p class="lead md-0">Course code: {{ course.code }}</p>
-                      <p class="card-text" >Entry code: 
-                        {% if course.entry_code %}
-                        <input id="ent_code" value="{{course.entry_code }}" style="width:100px;">
-                      <button class="btn btn-grey btn-sm" onclick="copy_code()"><i class="fa fa-clone"></i></button>
-                      {% endif %}
-                      </p>
-                    </div>
-=======
             <div class="card-image">
-              <a href="{% url 'updateCourse' course.id %}" class="btn btn-rounded btn-sm green darken-3 text-white">
-                <i class="fas fa-pen"></i>
-              </a>
-              <a href="{% url 'deleteCourse' course.id %}" class="btn btn-rounded btn-sm red darken-3 text-white">
-                <i class="fas fa-eraser"></i>
-              </a>
               <!-- Content -->
               <a href="{% url 'course' course.id %}">
+                <div class="card-header bg-warning" id="divColor" style="height: 10px;"></div>
                 <div class="text-dark d-flex h-100 mask">
                   <div class="first-content align-self-center p-3">
                     <h3 class="card-title">{{ course.name }}</h3>
@@ -57,12 +34,16 @@
                       <span id="ent_code-{{course.id}}">{{ course.entry_code }}</span>
                       {% endif %}
                     </p>
->>>>>>> af1227b022a797538ff1780c0779fdbc03ce2d5a
                   </div>
                 </div>
               </a>
-              <button class="btn btn-primary" onclick="clipboard('ent_code-{{course.id}}')"><i class="fa fa-clone"></i></button>
-              <!-- Content -->
+              <a href="{% url 'updateCourse' course.id %}" class="btn btn-rounded btn-sm orange darken-3 text-white">
+                <i class="fas fa-pen"></i>
+              </a>
+              <a href="{% url 'deleteCourse' course.id %}" class="btn btn-rounded btn-sm red darken-3 text-white">
+                <i class="fas fa-eraser"></i>
+              </a>
+              <button class="btn btn-grey btn-sm" onclick="clipboard('ent_code-{{course.id}}')"><i class="fa fa-clone"></i></button>
             </div>
           </div>
           <!-- Card -->
@@ -187,11 +168,6 @@
       $("#formCourseStudent").toggle();
     }); 
   });
-<<<<<<< HEAD
-  function copy_code(){
-    var ent_code=document.getElementById('ent_code');
-    ent_code.select();
-=======
   function clipboard(value) {
     let element = document.getElementById(value); //select the element
     let elementText = element.textContent; //get the text content from the element
@@ -202,7 +178,6 @@
   // and pass the string to copied as the argument.
   function copyText(text) {
     navigator.clipboard.writeText(text);
->>>>>>> af1227b022a797538ff1780c0779fdbc03ce2d5a
   }
   
   const bgColors = ['danger-color', 'danger-color-dark', 'warning-color', 'warning-color-dark', 
@@ -213,50 +188,5 @@
 
 </script>
 </div>
-<<<<<<< HEAD
-
-
-<div class="container-fluid mt-5">
-  <div class="modal fade" id="EditForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <form method="POST">
-          {% csrf_token %}
-          <div class="modal-header text-center">
-            <h4 class="modal-title w-100 font-weight-bold">Task Editor</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body mx-3">
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course title</label>
-              {{form.name}}
-            </div>
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course code</label>
-              {{form.code}}
-            </div>
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course description</label>
-              {{form.description}}
-            </div>
-            <div class="form-group">
-              <label data-error="wrong" data-success="right" for="defaultForm">Course year</label>
-              {{form.year}}
-            </div>
-        </div>
-        <div class="modal-footer d-flex justify-content-center">
-          <button type="submit" class="btn btn-rounded text-white purple lighten-2">Edit course</button>
-        </div>
-      </form>
-      </div>
-    </div>
-  </div>
-</div>     
-
-=======
->>>>>>> af1227b022a797538ff1780c0779fdbc03ce2d5a
 {% endblock content %}
 
