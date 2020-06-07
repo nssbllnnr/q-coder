@@ -25,6 +25,6 @@ class TaskForm(ModelForm):
             'deadline' : DateTimeInput(attrs={'type':'date'}, format="%d-%m-%Y %H:%M:%S")
         }
 class DocumentForm(ModelForm):
-        model = Document
     class Meta:
+        model = Document
         fields = ['document', 'description']
