@@ -11,7 +11,7 @@ from ..forms import *
 from users.models import *
 from users.forms import *
 from ..decorators import *
-from .exam_evaluate import exam_evaluate_map, get_mark
+#from .exam_evaluate import exam_evaluate_map, get_mark
 import random
 import string
 
@@ -53,20 +53,20 @@ def course(request, id):
 """
 @login_required
 def exam_evaluation(request, course_id, task_id):
-    if request.method == 'POST':
-        path = 'media/diploma_page_4.pdf'
-        data = exam_evaluate_map(path)
-        for key in data:
-            print(key)
-            if User.objects.annotate(full_name=Concat('first_name', V(' '), 'last_name')).filter(full_name__icontains=key).exists():
-                mark = get_mark(data[key], 'media/RightAnswers.txt')
-                _user = User.objects.filter(groups__name='Student').\
-                                        annotate(full_name=Concat('first_name', V(' '), 'last_name')).\
-                                        filter(full_name__icontains=key).first()
-                _student = Student.objects.get(user=_user)
-                Assignments.objects.create( grade=mark, 
-                                            task=Task.objects.get(id=task_id), 
-                                            student=_student)
+    # if request.method == 'POST':
+    #     path = 'media/diploma_page_4.pdf'
+    #     data = exam_evaluate_map(path)
+    #     for key in data:
+    #         print(key)
+    #         if User.objects.annotate(full_name=Concat('first_name', V(' '), 'last_name')).filter(full_name__icontains=key).exists():
+    #             mark = get_mark(data[key], 'media/RightAnswers.txt')
+    #             _user = User.objects.filter(groups__name='Student').\
+    #                                     annotate(full_name=Concat('first_name', V(' '), 'last_name')).\
+    #                                     filter(full_name__icontains=key).first()
+    #             _student = Student.objects.get(user=_user)
+    #             Assignments.objects.create( grade=mark, 
+    #                                         task=Task.objects.get(id=task_id), 
+    #                                         student=_student)
     assignments = Assignments.objects.filter(task_id=task_id)
     form = DocumentForm()
     return  render(request, 
