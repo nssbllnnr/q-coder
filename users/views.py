@@ -4,7 +4,8 @@ from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from users.models import Student, Teacher
-
+from .forms import TeacherForm, StudentForm
+from django.views import View 
 
 """
     Registration form of users, when we also create 
@@ -36,4 +37,18 @@ def register(request):
 """
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    teacher=Teacher.objects.get(user=request.user)
+    form=TeacherForm()
+    if request.method=='POST':
+        if is_member(teacher):
+            form=TeacherForm(request.POST,request.FILES,instance=teacher)
+            if form.is_valid:
+                form.save()
+    
+    context={'form':form}
+    return render(request, 'users/profile.html', context)
+
+def is_member(user):
+    return user.groups.filter(name='Teacher').exists()
+def is_student(user):
+    return user.groups.filter(name='Student').exists()

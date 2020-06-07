@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Course, Student, Task, Assignments
+from .models import Course, Task, Assignments
 from django.contrib import messages
 from users.forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
@@ -49,7 +49,7 @@ def main(request):
     return render(request, 'qmain/landing.html', {'form': form})
 
 #@method_decorator([login_required], name='dispatch')
-class CourseView(View):
+'''class CourseView(View):
     form_class = CourseForm
     initial = {'key': 'value'}
     template_name = 'qmain/courses.html'
@@ -93,7 +93,7 @@ class CourseView(View):
     def is_student(self, user):
         return user.groups.filter(name='Student').exists()
 
-
+'''
 """
     Page of courses list. Have course creating form.
 """
@@ -148,6 +148,12 @@ def random_entry_code():
     rnd= ''.join(random.choice(letters) for i in range(8))
     return rnd
 
+def random_color():
+    bgColors = ['danger-color', 'danger-color-dark', 'warning-color', 'warning-color-dark', 
+'success-color', 'success-color-dark', 'info-color', 'info-color-dark']
+    rnd=random.choice(bgColors)
+    return rnd
+    
 #code which We didn't use)))
 @login_required
 def assignments(request):
@@ -231,4 +237,5 @@ def check_exam(request, course_id, task_id):
 def task(request, course_id, task_id):
     assignments = Assignments.objects.filter(task_id=task_id)
     return  render(request, 'qmain/task.html', {'title':'Task assignmets', 'course_id':course_id, 'assignments':assignments})
+
 

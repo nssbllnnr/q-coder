@@ -10,4 +10,6 @@ urlpatterns = [
     path('course/<int:course_id>/tasks/<int:task_id>', views.check_exam, name='exams'),
     path('course/<int:course_id>/tasks/<int:task_id>/list',views.task, name='task'),
     path('joinCourse', views.joinCourse, name='joinCourse'),
+    
 ]
+

@@ -40,18 +40,19 @@
           <!-- Card -->
           <div class="card gradient-card">
               <div class="card-image">
-                <a href="{% url 'editCourse' course.id %}"  class=" btn btn-rounded text-white purple lighten-2 btn-sm add-new-row" type="button"  data-toggle="modal" data-target="#EditForm"><i class="fas fa-pen"></i></button>
+               
                 <!-- Content -->
                 <a href="{% url 'course' course.id %}">
+                  <div class="card-header bg-warning" id="divColor" style="height: 10px;"></div>
                   <div class="text-dark d-flex h-100 mask">
                     <div class="first-content align-self-center p-3">
                       <h3 class="card-title">{{ course.name }}</h3>
                       <p class="lead md-0">Course code: {{ course.code }}</p>
-                      <p class="card-text" id="ent_code">Entry code: 
+                      <p class="card-text" >Entry code: 
                         {% if course.entry_code %}
-                        <span>{{ course.entry_code }}</span>
-                        {% endif %}
-                      <button class="btn btn-primary" onclick="clipboard('copy')"><i class="fa fa-clone"></i></button>
+                        <input id="ent_code" value="{{course.entry_code }}" style="width:100px;">
+                      <button class="btn btn-grey btn-sm" onclick="copy_code()"><i class="fa fa-clone"></i></button>
+                      {% endif %}
                       </p>
                     </div>
                   </div>
@@ -171,6 +172,7 @@
 
 
 <script>
+  
   $(document).ready(function() {
     $("#formButton").click(function() {
       $("#formcourse").toggle();
@@ -179,13 +181,17 @@
       $("#formCourseStudent").toggle();
     }); 
   });
-  function clipboard(value){
+  function copy_code(){
     var ent_code=document.getElementById('ent_code');
     ent_code.select();
-    if(value== 'copy'){
-      document.execCommand('copy');
-    }
   }
+  
+  const bgColors = ['danger-color', 'danger-color-dark', 'warning-color', 'warning-color-dark', 
+'success-color', 'success-color-dark', 'info-color', 'info-color-dark']
+  const randomColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+  var text= "card-header bg-"+ randomColor;
+  document.getElementById("divColor").class = text;
+
 </script>
 </div>
 
@@ -228,6 +234,7 @@
       </div>
     </div>
   </div>
-</div>      
+</div>     
+
 {% endblock content %}
 

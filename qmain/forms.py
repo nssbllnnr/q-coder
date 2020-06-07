@@ -1,6 +1,7 @@
 from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, DateTimeField
 from .models import Course, Task
 
+
 # Create the form class.
 class CourseForm(ModelForm):
     class Meta:
@@ -24,3 +25,4 @@ class TaskForm(ModelForm):
             'description': Textarea(attrs={'class':'md-textarea form-control','placeholder':'Description','rows':'3'}),
             'deadline' : DateTimeInput(attrs={'type':'date'}, format="%d-%m-%Y %H:%M:%S")
         }
+

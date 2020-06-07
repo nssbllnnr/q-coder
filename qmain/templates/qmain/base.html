@@ -100,12 +100,7 @@
         <a href="{% url 'courses' %}" class="list-group-item list-group-item-action waves-effect">
           <i class="fas fa-chart-pie mr-3"></i>Courses
         </a>
-      {% ifnotequal title 'Courses' %}
-        <a href="{% url 'course' course_id %}" class="list-group-item list-group-item-action waves-effect">
-          <i class="fas fa-table mr-3"></i>Tasks</a>
-        <a href="{% url 'students' course_id %}" class="list-group-item list-group-item-action waves-effect">
-          <i class="fas fa-user mr-3"></i>Students</a>
-      {% endifnotequal %} 
+      
     </div>
     </div>
     <!-- Sidebar -->
@@ -130,7 +125,7 @@
     // Animations initialization
     new WOW().init();
   </script>
-  <script src="{% static 'https://cdn.onesignal.com/sdks/OneSignalSDK.js' %}" async=""></script>
+  <!--<script src="{% static 'https://cdn.onesignal.com/sdks/OneSignalSDK.js' %}" async=""></script>
   <script>
     var OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
@@ -138,6 +133,6 @@
         appId: "14254781-12c2-4858-b9f2-10144cf4463e",
       });
     });
-  </script>
+  </script>-->
 </body>
 </html>

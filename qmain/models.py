@@ -44,4 +44,4 @@ class AssignmentLinks(models.Model):
     link = models.CharField(max_length=4096) 
     task_file = models.ForeignKey(Assignments, on_delete=models.CASCADE) 
 
-    
+
