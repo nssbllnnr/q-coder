@@ -30,8 +30,8 @@ class TaskForm(ModelForm):
 
 
 class DocumentForm(ModelForm):
-    model = Document
     class Meta:
+        model = Document
         fields = ['document', 'description']
 
 
