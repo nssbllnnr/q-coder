@@ -39,15 +39,12 @@ def register(request):
 @login_required
 def profile(request):
     teacher=Teacher.objects.get(user=request.user)
-    form=TeacherForm(request.POST or None,request.FILES or None,instance=teacher)
+    form=TeacherForm(request.POST or None, request.FILES or None, instance=teacher)
     if request.method=='POST':
         if form.is_valid:
             instance=form.save(commit=False)
             instance.save()
             messages.success(request,"Updated!")
-        return HttpResponseRedirect(instance.get_absolute_url())
-            
-    
     context={'form':form, 'title':'Courses'}
     return render(request, 'users/profile.html', context)
 

@@ -11,9 +11,10 @@ from ..forms import *
 from users.models import *
 from users.forms import *
 from ..decorators import *
-#from .exam_evaluate import exam_evaluate_map, get_mark, mark
+from .exam_evaluate import exam_evaluate_map, get_mark, mark
 import random
 import string
+import ast
 
 @method_decorator([login_required], name='dispatch')
 class AssignmentsView(View):
@@ -53,21 +54,33 @@ def course(request, id):
 """
 @login_required
 def exam_evaluation(request, course_id, task_id):
+    form = DocumentForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
-        path = 'media/diploma_page_4.pdf'
-        data = exam_evaluate_map(path)
-        for key in data:
-            print(key)
-            # if User.objects.annotate(full_name=Concat('first_name', V(' '), 'last_name')).filter(full_name__icontains=key).exists():
-            #     mark = get_mark(data[key], 'media/RightAnswers.txt')
-            #     _user = User.objects.filter(groups__name='Student').\
-            #                             annotate(full_name=Concat('first_name', V(' '), 'last_name')).\
-            #                             filter(full_name__icontains=key).first()
-            #     _student = Student.objects.get(user=_user)
-            #     Assignments.objects.create( grade=mark, 
-            #                                 task=Task.objects.get(id=task_id), 
-            #                                 student=_student)
+        if form.is_valid:
+            task_files = form.save(commit=False)
+            task_files.task_file_id = task_id
+            task_files.save()
+            path = 'media/{}'.format(task_files.exam_file.name)
+            path_answers = 'media/{}'.format(task_files.answers_file.name)
+            data = exam_evaluate_map(path)
+            AssignmentHistory.objects.filter(task_id=task_id).delete()
+            Assignments.objects.filter(task_id=task_id).delete()
+            for key in data:
+                mark = get_mark(data[key], path_answers)
+                AssignmentHistory.objects.create(grade=mark, 
+                                                 task=Task.objects.get(id=task_id), 
+                                                 student_fio = key)
+                if User.objects.annotate(full_name=Concat('first_name', V(' '), 'last_name')).filter(full_name__icontains=key).exists():
+                    _user = User.objects.filter(groups__name='Student').\
+                                            annotate(full_name=Concat('first_name', V(' '), 'last_name')).\
+                                            filter(full_name__icontains=key).first()
+                    _student = Student.objects.get(user=_user)
+                    Assignments.objects.create( grade=mark, 
+                                                task=Task.objects.get(id=task_id), 
+                                                student=_student)
     assignments = Assignments.objects.filter(task_id=task_id)
+    assignments_history = AssignmentHistory.objects.filter(task_id=task_id)
+    TaskLinks.objects.filter()
     form = DocumentForm()
     return  render(request, 
                    'qmain/check_exam.html', 
@@ -76,20 +89,30 @@ def exam_evaluation(request, course_id, task_id):
                         'course_id':course_id, 
                         'task_id':task_id, 
                         'assignments' : assignments, 
+                        'assignments_history' :assignments_history,
                         'form':form
                    })
 
 
 @login_required
 def bubble_sheet(request, course_id, task_id):
+    form = DocumentForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
-        path = 'media/bubble_sheet.jpg'
-        score = mark(path, {0: 1, 1: 4, 2: 0, 3: 3, 4: 1})
-        Assignments.objects.create( grade=score, 
-                                    task=Task.objects.get(id=task_id),
-                                    student=Student.objects.get(student_id='180107001'))
+        if form.is_valid:
+            task_files = form.save(commit=False)
+            task_files.task_file_id = task_id
+            task_files.save()
+            path = 'media/{}'.format(task_files.exam_file.name)
+            path_answers = 'media/{}'.format(task_files.answers_file.name)
+            #{0: 1, 1: 4, 2: 0, 3: 3, 4: 1}
+            file = open(path_answers,'r')
+            answer = ast.literal_eval(file.read())
+            print(answer)
+            score = mark(path, answer)
+            Assignments.objects.filter(task_id=task_id).delete()
+            Assignments.objects.create( grade=score, 
+                                        task=Task.objects.get(id=task_id))
     assignments = Assignments.objects.filter(task_id=task_id)
-    form = DocumentForm()
     return  render(request, 
                    'qmain/bubble_sheet.html', 
                    {
@@ -100,10 +123,6 @@ def bubble_sheet(request, course_id, task_id):
                         'form':form
                    })
 
-def handle_uploaded_file(f, path):
-    with open(path, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
 
 """
     List of the task assignments.

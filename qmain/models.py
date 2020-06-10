@@ -33,12 +33,19 @@ class Task(models.Model):
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE, null=True)
 
 class TaskLinks(models.Model):
-    link = models.CharField(max_length=4096) 
     task_file = models.ForeignKey(Task, on_delete=models.CASCADE) 
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    exam_file = models.FileField(upload_to='documents', blank=True, null=True)
+    answers_file = models.FileField(upload_to='documents', blank=True, null=True)
 
 class Assignments(models.Model):
     grade = models.FloatField(default=0.0, null=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
+
+class AssignmentHistory(models.Model):
+    grade = models.FloatField(default=0.0, null=True)
+    student_fio = models.CharField(max_length=256)
     task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
 
 class AssignmentLinks(models.Model):

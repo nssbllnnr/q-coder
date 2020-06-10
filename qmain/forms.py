@@ -31,8 +31,9 @@ class TaskForm(ModelForm):
 
 class DocumentForm(ModelForm):
     class Meta:
-        model = Document
-        fields = ['document', 'description']
+        model = TaskLinks
+        fields = ['exam_file', 'answers_file']
+
 
 
 

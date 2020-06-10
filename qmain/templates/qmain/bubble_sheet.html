@@ -11,7 +11,7 @@
             </div>
             <div class="card-body mx-4">    
             <p class="text-center">Please upload file</6>
-            <form method="POST">
+            <form method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="input-group">
                     {{form|crispy}}
