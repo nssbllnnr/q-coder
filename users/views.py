@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, Group
 from users.models import Student, Teacher
 from .forms import TeacherForm, StudentForm
 from django.views import View 
+from django.http import HttpResponseRedirect
 
 """
     Registration form of users, when we also create 
@@ -37,14 +38,15 @@ def register(request):
 """
 @login_required
 def profile(request):
-    #teacher=Teacher.objects.get(user=request.user)
-    form=TeacherForm()
+    teacher=Teacher.objects.get(user=request.user)
+    form=TeacherForm(request.POST or None,request.FILES or None,instance=teacher)
     if request.method=='POST':
-        if is_member(user):
-            teacher=Teacher.objects.get(user=request.user)
-            form=TeacherForm(request.POST,request.FILES,instance=teacher)
-            if form.is_valid:
-                form.save()
+        if form.is_valid:
+            instance=form.save(commit=False)
+            instance.save()
+            messages.success(request,"Updated!")
+        return HttpResponseRedirect(instance.get_absolute_url())
+            
     
     context={'form':form, 'title':'Courses'}
     return render(request, 'users/profile.html', context)
